@@ -92,7 +92,11 @@ def sale_category(url):
 
     df = pd.DataFrame({'Наменование товара': names_products, 'Описание акции': list_prices, 'Ссылка': href_products})
     df.to_excel(f'category/excel/{url[1]}.xlsx', index=False, sheet_name=url[2])
+<<<<<<< HEAD
     # adress_file_excel = f'C:\Users\Zver\PycharmProjects\Parser_1category\excel\{url[1]}.xlsx'
+=======
+    # adress_file_excel = f'\category\excel\{url[1]}.xlsx'
+>>>>>>> 975389e (отредактрирован размер окна,удалена временная функция)
     # os.system(f'path_to_programm {adress_file_excel}')
 
 def all_sale_categori(pages):
