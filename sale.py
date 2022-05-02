@@ -1,18 +1,15 @@
-import pandas as pd
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-import os
-import openpyxl
 
 
+def get_sale(url='https://7745.by/sale/'):
+    '''эта функция запускается со старта приложения, создаёт список категорий и возвращает список кнопок,
+     которые соответствуют категориям акций'''
+    page_store = urlopen(url).read().decode('utf-8')  # -> получаем содержимое страницы
 
-def get_sale(url='https://7745.by/sale/'):  # -> эта функция запускается со старта приложения,
-   # создаёт список категорий и возвращает список кнопок, которые соответствуют категориям акций
-   #  page_store = urlopen(url).read().decode('utf-8') #-> получаем содержимое страницы
-   #
-   #  #Записываем страницу в файл, чтобы не мучить сайт и не получить бан, а в дальнейшем работать по полученному файлу:
-   #  with open('sale_page.html', 'w', encoding='utf-8') as file:
-   #      file.write(page_store)
+    # Записываем страницу в файл, чтобы не мучить сайт и не получить бан, а в дальнейшем работать по полученному файлу:
+    with open('sale_page.html', 'w', encoding='utf-8') as file:
+        file.write(page_store)
 
     # Читаем полученный файл:
     with open('sale_page.html', 'r', encoding='utf-8') as file:
@@ -30,7 +27,7 @@ def get_sale(url='https://7745.by/sale/'):  # -> эта функция запу�
     all_categorise_href = []
 
     column = 1
-    row = 4
+    row = 2
     for page in pages_sales:
         href_art = 'https://7745.by' + page.attrs['href']  # -> получаем ссылки на страницы с акциями
         all_categorise_href.append(href_art)
@@ -52,64 +49,15 @@ def get_sale(url='https://7745.by/sale/'):  # -> эта функция запу�
     return pages_sales_list  # -> возвращаем список кнопок
 
 
-def sale_category(url):
-    # page_store = urlopen(url[1]).read().decode(
-    #     'utf-8')
-    #
-    # with open(f"category/{url[2]}.html", 'w', encoding='utf-8') as html_file:
-    #     html_file.write(page_store)
-
-    with open(f"category/{url[2]}.html", 'r', encoding='utf-8') as page_html:
-        page_category = page_html.read()
-
-    soup_store = BeautifulSoup(page_category, 'html.parser')
-
-    tag_names_products = soup_store.find_all('a', "item-block_name item-block_name--tile")
-
-    names_products = []  # -> список наименований акционных товаров
-    list_prices = []  # -> список цен акционных товаров
-    href_products=[] # -> список ссылок акционных товаров
-
-    for n in tag_names_products:
-        list_prices_n = []
-        name = n.text
-        names_products.append(name)
-        container = n.parent.parent.parent
-        price_1 = container.find_all(class_="price-summary_title-cell")
-        href_products.append(f"http://7745.by/{n['href']}")
-
-        for p in price_1:
-            value_price = p.text
-            price = ''.join(p.find_next().text.split())
-            prices = f'{value_price[:-1]} = {price}'
-            list_prices_n.append(prices)
-
-        list_prices.append(list_prices_n)
-    print(list_prices)
-
-
-
-    df = pd.DataFrame({'Наменование товара': names_products, 'Описание акции': list_prices, 'Ссылка': href_products})
-    df.to_excel(f'category/excel/{url[2]}.xlsx', index=False, sheet_name=url[0])
-    # wb =openpyxl.Workbook(f'category/excel/{url[2]}.xlsx')
-    # sheet = wb.get_active_sheet()
-    # sheet.column_dimensions['B'].width = 80
-
-    dir_project = os.getcwd()
-    excel_file = dir_project+f'\\category\\excel\\{url[2]}.xlsx'
-
-    print(excel_file)
-    os.system(excel_file)
-
 def all_sale_categori(pages):
     pass
 #     salary_sheets = {}
 #     for page in pages:
 #         page_store = urlopen(page[1]).read().decode('utf-8')
 #
-#         with open(f"category/{page[4]}.html", 'w', encoding='utf-8') as html_file:
+#         with open(f"categories/{page[4]}.html", 'w', encoding='utf-8') as html_file:
 #             html_file.write(page_store)
-#         with open(f"category/{page[4]}.html", 'r', encoding='utf-8') as page_html:
+#         with open(f"categories/{page[4]}.html", 'r', encoding='utf-8') as page_html:
 #             page_category = page_html.read()
 #
 #         soup_store = BeautifulSoup(page_category, 'html.parser')
