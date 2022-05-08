@@ -8,4 +8,5 @@
 -BeautifulSoup
 -openpyxl
 -XlsxWriter
+Для работы программмы запускать файл tk.py
 Желаю приятных покупок!
