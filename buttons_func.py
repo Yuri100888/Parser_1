@@ -49,11 +49,11 @@ def for_every_page_category(i, g):
     '''получает в качестве аргументов название для временной страницы и ссылку на страницу.
     находит акционные товары на странице и возвращает список ["имя товара", "акция", "ссылка на товар"]'''
 
-    # page_store = urlopen(g[0]).read().decode(
-    #     'utf-8')
-    #
-    # with open(f"categories/{g[1]}/{i}.html", 'w', encoding='utf-8') as html_file:
-    #     html_file.write(page_store)
+    page_store = urlopen(g[0]).read().decode(
+        'utf-8')
+
+    with open(f"categories/{g[1]}/{i}.html", 'w', encoding='utf-8') as html_file:
+        html_file.write(page_store)
 
     with open(f"categories/{g[1]}/{i}.html", 'r', encoding='utf-8') as page_html:
         page_category = page_html.read()
@@ -148,7 +148,7 @@ def all_sale_categori():
 
 def writer(list_for_write):
     '''записывает данные в excel-файл и запускает его в редакторе'''
-    print(list_for_write)
+
     # составляю словарь для записи в excel:
     df = pd.DataFrame(
         {'Наменование товара': list_for_write[0], 'Описание акции': list_for_write[1], 'Ссылка': list_for_write[2]})
